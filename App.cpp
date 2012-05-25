@@ -1,5 +1,5 @@
 #include "App.h"
-bool App::Init()
+bool App::Init()  // YOO
 {
 	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "PlatformFighter Editor");
 
