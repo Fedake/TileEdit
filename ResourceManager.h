@@ -16,4 +16,6 @@ class ResourceManager
 
 		sf::Texture* getTileTexture(int nr){return m_tileTex[nr];}
 		sf::Texture* getEntityTexture(int nr){return m_entTex[nr];}
+
+		void Render(sf::RenderWindow* win);
 };

@@ -38,19 +38,19 @@ void Map::setNewType(int nType)
 {
 	if(m_mode == 0)
 	{
-		m_newType += nType;
+		m_newType = nType;
 		if(m_newType > TOTAL_SPRITES) m_newType = 0;
 		if(m_newType < 0) m_newType = 63;
 	}
 	else if(m_mode == 1)
 	{
-		m_newSolidType += nType;
+		m_newSolidType = nType;
 		if(m_newSolidType > 1) m_newSolidType = 0;
 		if(m_newSolidType < 0) m_newSolidType = 1;
 	}
 	else if(m_mode == 2)
 	{
-		m_newEntityType += nType;
+		m_newEntityType = nType;
 		if(m_newEntityType > 20) m_newEntityType = 0;
 		if(m_newEntityType < 0) m_newEntityType = 20;
 	}

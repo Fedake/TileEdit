@@ -18,7 +18,6 @@ class Map
 		SolidTile* m_solidMap[MAP_WIDTH][MAP_HEIGHT];
 		Entity* m_entities[MAP_WIDTH][MAP_HEIGHT];
 
-
 		Tile* m_newTile;
 		SolidTile* m_newSolid;
 		Entity* m_newEntity;

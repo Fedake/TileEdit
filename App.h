@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "Camera.h"
 #include "ResourceManager.h"
+#include "Choice.h"
 
 class App
 {
@@ -14,6 +15,7 @@ class App
 		bool m_done;
 
 		sf::RenderWindow m_window;
+		sf::RenderWindow m_choiceWindow;
 
 		sf::Texture test;
 		sf::Sprite testSpr;
@@ -21,6 +23,7 @@ class App
 		sf::Vector2f m_mPos;
 
 		Map* m_map;
+		Choice* m_choice;
 		Camera* m_cam;
 		ResourceManager* m_resMgr;
 

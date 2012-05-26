@@ -2,9 +2,17 @@
 bool App::Init()  // YOO
 {
 	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "PlatformFighter Editor");
-
 	m_window.setFramerateLimit(60);
 	m_window.setKeyRepeatEnabled(false);
+
+	m_choiceWindow.create(sf::VideoMode(64, 244, 32), "Choice", sf::Style::Titlebar);
+	
+	int winpx = m_window.getPosition().x;
+	int winsx = m_window.getSize().x;
+	int cwinpx = m_choiceWindow.getPosition().x;
+	int cwinsx = m_choiceWindow.getSize().x;
+
+	m_choiceWindow.setPosition(sf::Vector2i(winpx + winsx + 5, m_window.getPosition().y + 40));
 
 	m_resMgr = new ResourceManager("sheet.png", "entSheet.png");
 
@@ -12,6 +20,8 @@ bool App::Init()  // YOO
 	if(!m_map->loadLevel()) return false;
 
 	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
+
+	m_choice = new Choice(m_resMgr);
 
 	return true;
 }
@@ -34,6 +44,7 @@ void App::Run()
 		draw();
 	}
 	m_window.close();
+	m_choiceWindow.close();
 }
 
 void App::draw()
@@ -41,13 +52,16 @@ void App::draw()
     //RYSOWANIE UWZGLEDNIAJAC KAMERE
 	m_window.setView(m_cam->getView());
 	m_window.clear(sf::Color(255, 255, 255));
+	m_choiceWindow.clear(sf::Color(255, 255, 255));
 	//Render mapy
 	m_map->Render(&m_window);
-
+	//Render wyboru
+	m_choice->Render(&m_choiceWindow);
 	//RYSOWANIE STALYCH ELEMENTOW EKRANU
 	m_window.setView(m_window.getDefaultView());
 	//m_window.draw(testSpr);
 	m_window.display();
+	m_choiceWindow.display();
 }
 
 void App::ProcessEvents()
@@ -85,24 +99,45 @@ void App::ProcessEvents()
 		}
 		else if(Event.type == sf::Event::KeyPressed)
 		{
-			if(Event.key.code == sf::Keyboard::E) m_map->ChangeMode();
+			if(Event.key.code == sf::Keyboard::Space) 
+			{
+				m_map->ChangeMode();
+				m_choice->ChangeMode();
+			}
 
 			else if(Event.key.code == sf::Keyboard::W) m_cam->setVel(0, -100);
 			else if(Event.key.code == sf::Keyboard::S) m_cam->setVel(0, 100);
 			else if(Event.key.code == sf::Keyboard::A) m_cam->setVel(-100, 0);
 			else if(Event.key.code == sf::Keyboard::D) m_cam->setVel(100, 0);
 		}
-		else if(Event.type == sf::Event::MouseWheelMoved)
+		/*else if(Event.type == sf::Event::MouseWheelMoved)
 		{
 			if(Event.mouseWheel.delta > 0) m_map->setNewType(1);
 			if(Event.mouseWheel.delta < 0) m_map->setNewType(-1);
-		}
+		}*/
 		else if(Event.type == sf::Event::KeyReleased)
 		{
 			if(Event.key.code == sf::Keyboard::W) m_cam->setVel(0, 100);
 			else if(Event.key.code == sf::Keyboard::S) m_cam->setVel(0, -100);
 			else if(Event.key.code == sf::Keyboard::A) m_cam->setVel(100, 0);
 			else if(Event.key.code == sf::Keyboard::D) m_cam->setVel(-100, 0);
+		}
+	}
+
+	while (m_choiceWindow.pollEvent(Event))
+	{
+		if(Event.type == sf::Event::MouseMoved)
+		{
+			m_mPos = sf::Vector2f(Event.mouseMove.x, Event.mouseMove.y) + m_cam->getPos();
+		}
+
+		else if (Event.type == sf::Event::MouseButtonPressed)
+		{
+			if (Event.key.code == sf::Mouse::Left)
+			{
+				int type = m_choice->Click(m_mPos);
+				m_map->setNewType(type);
+			}
 		}
 	}
 }
