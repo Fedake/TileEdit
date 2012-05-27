@@ -84,16 +84,26 @@ void Choice::Render(sf::RenderWindow* win)
 
 int Choice::Click(sf::Vector2f pos)
 {
+	int current = 0;
+
 	for (int i = 0; i < 16; ++i)
 	{
 		for (int j = 0; j < 4; ++j)
 		{
 			if (m_tiles[i][j]->getBox().contains(pos))
 			{
-				m_currentTile = m_tiles[i][j];
-				m_currentEntity = m_entities[i][j];
+				if (current < TOTAL_SPRITES)
+				{
+					m_currentTile = m_tiles[i][j];
+				}
+				if (current < TOTAL_ENTITIES)
+				{
+					m_currentEntity = m_entities[i][j];
+				}
 				return m_tiles[i][j]->getType();
 			}
+
+			++current;
 		}
 	}
 }
@@ -101,6 +111,9 @@ int Choice::Click(sf::Vector2f pos)
 void Choice::ChangeMode()
 {
 	++m_mode;
-
 	if (m_mode > 2) m_mode = 0;
+
+	if (m_mode == 0 || m_mode == 1) m_currentTile = m_tiles[0][0];
+	if (m_mode == 2) m_currentEntity = m_entities[0][0];
+
 }

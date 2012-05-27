@@ -139,6 +139,14 @@ void App::ProcessEvents()
 				m_map->setNewType(type);
 			}
 		}
+		else if(Event.type == sf::Event::KeyPressed)
+		{
+			if(Event.key.code == sf::Keyboard::Space) 
+			{
+				m_map->ChangeMode();
+				m_choice->ChangeMode();
+			}
+		}
 	}
 }
 
