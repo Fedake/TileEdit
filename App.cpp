@@ -145,4 +145,7 @@ void App::ProcessEvents()
 void App::Update(sf::Time dt)
 {
 	m_cam->Update(dt.asMilliseconds());
+
+	sf::Vector2i nPos = m_window.getPosition() - sf::Vector2i(m_choiceWindow.getSize().x+10, -5);
+	m_choiceWindow.setPosition(nPos);
 }
