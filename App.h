@@ -11,6 +11,8 @@ class App
 	private:
 		int m_screenWidth;
 		int m_screenHeight;
+		int nr;
+
 		std::string m_levelName;
 		bool m_done;
 		int m_type;

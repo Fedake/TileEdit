@@ -26,7 +26,7 @@ class Map
 
 		std::string m_levelName;
 
-		int m_mapWidth, m_mapHeight;
+		int m_mapWidth, m_mapHeight, m_nr;
 
 		int m_newType;
 		int m_newSolidType;
@@ -60,6 +60,7 @@ class Map
 
 struct MapFile
 {	
+	int ile; //Bo przyjemniej
 	int w, h, x, y;
 
 	char tiles[MAP_WIDTH][MAP_HEIGHT];
