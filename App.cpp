@@ -1,18 +1,14 @@
 #include "App.h"
 bool App::Init()  // YOO
 {
-	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "PlatformFighter Editor");
+	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "PlatformFighter Editor", sf::Style::Titlebar | sf::Style::Close);
 	m_window.setFramerateLimit(60);
 	m_window.setKeyRepeatEnabled(false);
 
 	m_choiceWindow.create(sf::VideoMode(64, 244, 32), "Choice", sf::Style::Titlebar);
 	
-	int winpx = m_window.getPosition().x;
-	int winsx = m_window.getSize().x;
-	int cwinpx = m_choiceWindow.getPosition().x;
-	int cwinsx = m_choiceWindow.getSize().x;
-
-	m_choiceWindow.setPosition(sf::Vector2i(winpx + winsx + 5, m_window.getPosition().y + 40));
+	sf::Vector2i nPos = m_window.getPosition() - sf::Vector2i(m_choiceWindow.getSize().x+10, -5);
+	m_choiceWindow.setPosition(nPos);
 
 	m_resMgr = new ResourceManager("sheet.png", "entSheet.png");
 
@@ -134,6 +130,12 @@ void App::ProcessEvents()
 			else if(Event.key.code == sf::Keyboard::A) m_cam->setVel(100, 0);
 			else if(Event.key.code == sf::Keyboard::D) m_cam->setVel(-100, 0);
 		}
+
+		else if (Event.type == sf::Event::Resized)
+		{
+			sf::Vector2i nPos = m_window.getPosition() - sf::Vector2i(m_choiceWindow.getSize().x+10, -5);
+			m_choiceWindow.setPosition(nPos);
+		}
 	}
 
 	while (m_choiceWindow.pollEvent(Event))
@@ -147,8 +149,8 @@ void App::ProcessEvents()
 		{
 			if (Event.key.code == sf::Mouse::Left)
 			{
-				int type = m_choice->Click(m_mPos - m_cam->getPos());
-				m_map->setNewType(type);
+				m_type = m_choice->Click(m_mPos - m_cam->getPos());
+				m_map->setNewType(m_type);
 			}
 		}
 		else if(Event.type == sf::Event::KeyPressed)
@@ -158,6 +160,9 @@ void App::ProcessEvents()
 				m_map->ChangeMode();
 				m_choice->ChangeMode();
 			}
+			else if(Event.key.code == sf::Keyboard::Left) m_map->setNewType(m_type-1);
+			else if(Event.key.code == sf::Keyboard::Right) m_map->setNewType(m_type+1);
+			else if(Event.key.code == sf::Keyboard::S) m_cam->setVel(0, 100);
 		}
 	}
 }
@@ -165,7 +170,4 @@ void App::ProcessEvents()
 void App::Update(sf::Time dt)
 {
 	m_cam->Update(dt.asMilliseconds());
-
-	//sf::Vector2i nPos = m_window.getPosition() - sf::Vector2i(m_choiceWindow.getSize().x+10, -5);
-	//m_choiceWindow.setPosition(nPos);
 }

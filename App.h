@@ -15,6 +15,7 @@ class App
 
 		std::string m_levelName;
 		bool m_done;
+		int m_type;
 
 		sf::RenderWindow m_window;
 		sf::RenderWindow m_choiceWindow;
