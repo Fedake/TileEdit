@@ -30,18 +30,30 @@ void App::Run()
 {
 	if(!Init()) m_done = true;
 	sf::Clock dt;
+	sf::Clock fpsCap;
 	dt.restart();
 	// pêtla g³ówna
 	m_done = false;
 	
 	while (!m_done)
 	{
+		fpsCap.restart();
+
 		ProcessEvents();
-		Update(dt.getElapsedTime());
+		if(dt.getElapsedTime().asSeconds() < 0.1f)
+			Update(dt.getElapsedTime());
 		
 		dt.restart();
 		
 		draw();
+		if(fpsCap.getElapsedTime().asMilliseconds() != 0)
+		{
+			if(1000/fpsCap.getElapsedTime().asMilliseconds() > 40)
+			{
+				sf::Time sleepTime = sf::milliseconds((1000/40) - fpsCap.getElapsedTime().asMilliseconds());
+				sf::sleep(sleepTime);
+			}
+		}
 	}
 	m_window.close();
 	m_choiceWindow.close();
@@ -154,6 +166,6 @@ void App::Update(sf::Time dt)
 {
 	m_cam->Update(dt.asMilliseconds());
 
-	sf::Vector2i nPos = m_window.getPosition() - sf::Vector2i(m_choiceWindow.getSize().x+10, -5);
-	m_choiceWindow.setPosition(nPos);
+	//sf::Vector2i nPos = m_window.getPosition() - sf::Vector2i(m_choiceWindow.getSize().x+10, -5);
+	//m_choiceWindow.setPosition(nPos);
 }

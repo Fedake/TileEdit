@@ -80,9 +80,11 @@ bool Map::loadLevel()
 
 	m_mapWidth = map->w;
 	m_mapHeight = map->h;
+	m_nr = map->ile;
 
 	std::cout << "Map witdh " << map->w << std::endl;
 	std::cout << "Map height " << map->h << std::endl;
+	std::cout << "Map number " << map->ile << std::endl;
 	std::cout << "Player pos x:" << map->x << " y: " << map->y << std::endl;
 
 	for(int j = 0; j < m_mapHeight; j++)
@@ -108,6 +110,9 @@ bool Map::SaveLevel()
 
 	map->w = m_mapWidth;
 	map->h = m_mapHeight;
+	map->ile = m_nr;
+
+	map->ile = 
 
 	map->x = 16;
 	map->y = 16;
@@ -137,7 +142,8 @@ void Map::Render(sf::RenderWindow* win)
 	{
 		for(int i = 0; i < m_mapWidth; i++)
 		{
-			m_tiles[i][j]->Render(win);
+			if(m_tiles[i][j]->getType() != 0) m_tiles[i][j]->Render(win);
+
 			m_entities[i][j]->Render(win);
 			if(m_mode == 1) win->draw(m_solidMap[i][j]->getShape());
 		}

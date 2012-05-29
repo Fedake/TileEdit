@@ -27,6 +27,8 @@ void GenerateLevel(std::string name)
 	std::cin >> map->w;
 	std::cout << "Podaj wysokosc nowego poziomu: ";
 	std::cin >> map->h;
+	std::cout << "Podaj numer nowego poziomu: ";
+	std::cin >> map->ile;
 
 	map->x = 16;
 	map->y = 16;
