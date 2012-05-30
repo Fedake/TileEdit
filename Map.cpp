@@ -112,8 +112,6 @@ bool Map::SaveLevel()
 	map->h = m_mapHeight;
 	map->ile = m_nr;
 
-	map->ile = 
-
 	map->x = 16;
 	map->y = 16;
 
