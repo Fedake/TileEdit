@@ -15,6 +15,9 @@ Choice::Choice(ResourceManager* resMgr)
 	solid.setSize(sf::Vector2f(16,16));
 	solid.setFillColor(sf::Color(255, 0, 0, 64));
 
+	halfSolid.setSize(sf::Vector2f(16, 16));
+	halfSolid.setFillColor(sf::Color(255, 255, 30, 64));
+
 	int type = 0;
 
 	for (int i = 0; i < 16; ++i)
@@ -60,6 +63,9 @@ void Choice::Render(sf::RenderWindow* win)
 
 		solid.setPosition(16, 0);
 		win->draw(solid);
+
+		halfSolid.setPosition(32, 0);
+		win->draw(halfSolid);
 
 		ziomeczek.setPosition(m_currentTile->getBox().left, m_currentTile->getBox().top);
 		win->draw(ziomeczek);
