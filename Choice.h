@@ -14,7 +14,7 @@ class Choice
 		Tile* m_tiles[16][4];
 		Entity* m_entities[16][4];
 
-		sf::RectangleShape ziomeczek, noSolid, solid;
+		sf::RectangleShape ziomeczek, noSolid, solid, halfSolid;
 
 		Tile* m_currentTile;
 		Entity* m_currentEntity;

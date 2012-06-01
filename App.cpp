@@ -142,7 +142,7 @@ void App::ProcessEvents()
 	{
 		if(Event.type == sf::Event::MouseMoved)
 		{
-			m_mPos = sf::Vector2f(Event.mouseMove.x, Event.mouseMove.y) + m_cam->getPos();
+			m_mPos = sf::Vector2f(Event.mouseMove.x, Event.mouseMove.y);
 		}
 
 		else if (Event.type == sf::Event::MouseButtonPressed)

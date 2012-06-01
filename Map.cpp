@@ -45,7 +45,7 @@ void Map::setNewType(int nType)
 	else if(m_mode == 1)
 	{
 		m_newSolidType = nType;
-		if(m_newSolidType > 1) m_newSolidType = 0;
+		if(m_newSolidType > 2) m_newSolidType = 0;
 		if(m_newSolidType < 0) m_newSolidType = 1;
 	}
 	else if(m_mode == 2)
@@ -95,7 +95,7 @@ bool Map::loadLevel()
 			if(map->tiles[i][j] < 0 || map->tiles[i][j] >= 64) return false;
 			m_tiles[i][j] = new Tile(static_cast<float>(i*16), static_cast<float>(j*16), map->tiles[i][j], m_resMgr->getTileTexture(map->tiles[i][j]));
 			//SOLID
-			if(map->solid[i][j] < 0 || map->solid[i][j] > 1) return false;
+			if(map->solid[i][j] < 0 || map->solid[i][j] > 2) return false;
 			m_solidMap[i][j] = new SolidTile(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), map->solid[i][j]);
 			//ENTITIES
 			m_entities[i][j] = new Entity(static_cast<float>(i*16), static_cast<float>(j*16), map->ents[i][j], m_resMgr->getEntityTexture(map->ents[i][j]));	
