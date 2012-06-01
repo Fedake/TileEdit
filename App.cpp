@@ -149,7 +149,7 @@ void App::ProcessEvents()
 		{
 			if (Event.key.code == sf::Mouse::Left)
 			{
-				m_type = m_choice->Click(m_mPos);
+				m_type = m_choice->Click(m_mPos - m_cam->getPos());
 				m_map->setNewType(m_type);
 			}
 		}
