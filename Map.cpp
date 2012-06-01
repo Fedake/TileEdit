@@ -6,6 +6,11 @@ Map::Map(std::string name, ResourceManager* resMgr) : m_mapWidth(0), m_mapHeight
 	m_newTile = new Tile(0, 0, m_newType, m_resMgr->getTileTexture(m_newType));
 	m_newSolid = new SolidTile(sf::Vector2f(0, 0), m_newSolidType);
 	m_newEntity = new Entity(0, 0, m_newEntityType, m_resMgr->getEntityTexture(m_newEntityType));
+
+	m_spawnMark.setCharacterSize(14);
+	m_spawnMark.setColor(sf::Color::Black);
+	m_spawnMark.setString("R");
+	m_spawnMark.setStyle(sf::Text::Style::Bold);
 }
 
 
@@ -32,6 +37,12 @@ void Map::NewType(sf::Vector2f pos)
 			}
 		}
 	}
+}
+
+void Map::setSpawn(sf::Vector2f pos)
+{
+	m_startPos = sf::Vector2f(static_cast<int>(pos.x), static_cast<int>(pos.y));
+	m_spawnMark.setPosition(m_startPos);	
 }
 
 void Map::setNewType(int nType)
@@ -61,6 +72,25 @@ void Map::setNewType(int nType)
 	m_newEntity = new Entity(box.left, box.top, m_newEntityType, m_resMgr->getEntityTexture(m_newEntityType));
 }
 
+void Map::pickTile(sf::Vector2f pos)
+{
+	if(pos.x <= m_mapWidth*16 && pos.y <= m_mapHeight*16)
+	{
+		for(int j = 0; j < m_mapHeight; j++)
+		{
+			for(int i = 0; i < m_mapWidth; i++)
+			{
+				if(m_tiles[i][j]->getBox().contains(pos))
+				{
+					if(m_mode == 0) m_newTile = new Tile(*m_tiles[i][j]);
+					if(m_mode == 1) {m_newSolidType = m_solidMap[i][j]->getType(); m_newSolid->setType(m_newSolidType);}
+					if(m_mode == 2) m_newEntity = new Entity(*m_entities[i][j]);
+				}
+			}
+		}
+	}
+}
+
 
 void Map::ChangeMode()
 {
@@ -82,6 +112,8 @@ bool Map::loadLevel()
 	m_mapHeight = map->h;
 	m_nr = map->ile;
 
+	m_startPos = sf::Vector2f(map->x, map->y);
+
 	std::cout << "Map witdh " << map->w << std::endl;
 	std::cout << "Map height " << map->h << std::endl;
 	std::cout << "Map number " << map->ile << std::endl;
@@ -101,6 +133,7 @@ bool Map::loadLevel()
 			m_entities[i][j] = new Entity(static_cast<float>(i*16), static_cast<float>(j*16), map->ents[i][j], m_resMgr->getEntityTexture(map->ents[i][j]));	
 		}
 	}
+	m_spawnMark.setPosition(m_startPos);
 	return true;
 }
 
@@ -112,8 +145,8 @@ bool Map::SaveLevel()
 	map->h = m_mapHeight;
 	map->ile = m_nr;
 
-	map->x = 16;
-	map->y = 16;
+	map->x = m_startPos.x;
+	map->y = m_startPos.y;
 
 	for(int j = 0; j < m_mapHeight; j++)
 	{
@@ -146,6 +179,8 @@ void Map::Render(sf::RenderWindow* win)
 			if(m_mode == 1) win->draw(m_solidMap[i][j]->getShape());
 		}
 	}
+
+	win->draw(m_spawnMark);
 
 	if(m_mode == 0) m_newTile->Render(win);
 	if(m_mode == 1) win->draw(m_newSolid->getShape());

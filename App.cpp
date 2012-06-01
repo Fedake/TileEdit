@@ -100,10 +100,8 @@ void App::ProcessEvents()
 
 		else if(Event.type == sf::Event::MouseButtonPressed)
 		{
-			if(Event.key.code == sf::Mouse::Left)
-			{
-				m_map->NewType(m_mPos);
-			}
+			if(Event.key.code == sf::Mouse::Left) m_map->NewType(m_mPos);
+			if(Event.key.code == sf::Mouse::Right) m_map->pickTile(m_mPos);
 		}
 		else if(Event.type == sf::Event::KeyPressed)
 		{
@@ -117,6 +115,7 @@ void App::ProcessEvents()
 			else if(Event.key.code == sf::Keyboard::S) m_cam->setVel(0, 100);
 			else if(Event.key.code == sf::Keyboard::A) m_cam->setVel(-100, 0);
 			else if(Event.key.code == sf::Keyboard::D) m_cam->setVel(100, 0);
+			else if(Event.key.code == sf::Keyboard::R) m_map->setSpawn(m_mPos);
 		}
 		/*else if(Event.type == sf::Event::MouseWheelMoved)
 		{
@@ -149,7 +148,7 @@ void App::ProcessEvents()
 		{
 			if (Event.key.code == sf::Mouse::Left)
 			{
-				m_type = m_choice->Click(m_mPos - m_cam->getPos());
+				m_type = m_choice->Click(m_mPos);
 				m_map->setNewType(m_type);
 			}
 		}

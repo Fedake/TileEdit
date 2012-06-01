@@ -24,6 +24,8 @@ class Map
 
 		ResourceManager* m_resMgr;
 
+		sf::Text m_spawnMark;
+
 		std::string m_levelName;
 
 		int m_mapWidth, m_mapHeight, m_nr;
@@ -45,7 +47,9 @@ class Map
 
 		void draw(sf::Vector2f pos);
 		void NewType(sf::Vector2f pos);
+		void setSpawn(sf::Vector2f pos);
 		void setNewType(int nType);
+		void pickTile(sf::Vector2f pos);
 		void enabledraw(bool nBln){m_drawing = nBln;}
 		void ChangeMode();
 
